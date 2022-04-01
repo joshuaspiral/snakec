@@ -25,53 +25,74 @@ typedef enum {
     WEST,
 } Dir;
 
-vector<pair<int, int>> snake = {pair<int, int> {0, 0}};
-snake.push_back(pair<int, int> {0, 1});
-snake.push_back(pair<int, int> {0, 2});
-snake.push_back(pair<int, int> {0, 3});
-snake.push_back(pair<int, int> {0, 4});
-snake.push_back(pair<int, int> {1, 4});
-snake.push_back(pair<int, int> {2, 4});
+vector<pair<int, int>> snake = {pair<int, int> {ROWS / 2, COLS / 2}};
 
-void moveSnake(Dir direction, vector<pair<int, int>> snake) {
+
+bool changeDirection(Dir direction) {
     pair<int, int> newHead = snake[0];
     switch (direction) {
         case NORTH:
-            cout << "NORTH" << endl;
-            newHead.first += 1;
+            newHead.first = (newHead.first - 1) % ROWS;
             break;
         case EAST:
-            newHead.second += 1;
+            newHead.second = (newHead.second + 1) % COLS;
             break;
         case SOUTH:
-            newHead.first -= 1;
+            newHead.first = (newHead.first + 1) % ROWS;
             break;
         case WEST:
-            newHead.second -= 1;
+            newHead.second = (newHead.second - 1 + COLS)  % COLS;
             break;
         default:
             break;
     }
+
     snake.insert(snake.begin(), newHead); 
     snake.pop_back();
+    return true;
 }
 
-void drawSnake(vector<pair<int, int>> snake) {
+void addPart(Dir direction) {
+    pair<int, int> tail = snake[snake.size() - 1];
+    switch (direction) {
+        case NORTH:
+            tail.first = (tail.first - 1) % ROWS;
+            break;
+        case EAST:
+            tail.second = (tail.second + 1) % COLS;
+            break;
+        case SOUTH:
+            tail.first = (tail.first + 1) % ROWS;
+            break;
+        case WEST:
+            tail.second = (tail.second - 1 + COLS)  % COLS;
+            break;
+        default:
+            break;
+    }
+    snake.push_back(tail);
+}
+void drawSnake() {
     for (pair<int,int> snakePart : snake) {
         DrawRectangle(snakePart.second * cellWidth, snakePart.first * cellHeight, cellWidth, cellHeight, BLACK);
     }
 }
 
-cellState board[ROWS][COLS] = {{EMPTY}};
-
 int main() {
     InitWindow(WIDTH, HEIGHT, "Snake");
-    SetTargetFPS(60);
+    SetTargetFPS(30);
 
-    moveSnake(NORTH, snake);
+    Dir curDir;
     while (!WindowShouldClose()) {
+        if (IsKeyDown(KEY_UP)) curDir = NORTH;
+        else if (IsKeyDown(KEY_RIGHT)) curDir = EAST;
+        else if (IsKeyDown(KEY_DOWN)) curDir = SOUTH;
+        else if (IsKeyDown(KEY_LEFT)) curDir = WEST;
+        else if (IsKeyDown(KEY_EQUAL)) addPart(curDir);
+        changeDirection(curDir);
         BeginDrawing();
-        drawSnake(snake);
+        ClearBackground(WHITE);
+        drawSnake();
         EndDrawing();
     }
     CloseWindow();
