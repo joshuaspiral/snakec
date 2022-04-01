@@ -59,7 +59,7 @@ int main() {
     InitWindow(WIDTH, HEIGHT, "Snake");
     SetTargetFPS(15);
 
-    Dir curDir;
+    Dir curDir = NORTH;
     int points = 0;
     pair<int, int> fruitPos = {rand() % ROWS, rand() % COLS};
 
