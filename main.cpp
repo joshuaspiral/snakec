@@ -73,7 +73,7 @@ int main() {
             addPart(curDir);
             points++;
         }
-        for (unsigned long i = 1; i < snake.size(); i++) {
+        for (unsigned long i = 1; i < snake.size() - 1; i++) {
             if (snake[0] == snake[i]) {
                 printf("Game over");
                 return EXIT_SUCCESS;
