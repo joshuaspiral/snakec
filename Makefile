@@ -1,5 +1,5 @@
-CXX=clang++
-CXXFLAGS = -Wall -Wextra -Werror -ggdb -O3
+CXX=g++
+CXXFLAGS = -Wall -Wextra -ggdb -O3
 LIBS = `pkg-config raylib --libs`
 SRCS = main.cpp
 TARGET = snake

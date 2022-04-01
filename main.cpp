@@ -57,23 +57,23 @@ void drawSnake() {
 int main() {
     srand(time(0));
     InitWindow(WIDTH, HEIGHT, "Snake");
-    SetTargetFPS(20);
+    SetTargetFPS(15);
 
     Dir curDir;
     int points = 0;
     pair<int, int> fruitPos = {rand() % ROWS, rand() % COLS};
 
     while (!WindowShouldClose()) {
-        if (IsKeyDown(KEY_UP) && curDir != NORTH) curDir = NORTH;
-        else if (IsKeyDown(KEY_RIGHT) && curDir != EAST) curDir = EAST;
-        else if (IsKeyDown(KEY_DOWN) && curDir != SOUTH) curDir = SOUTH;
-        else if (IsKeyDown(KEY_LEFT) && curDir != WEST) curDir = WEST;
+        if (IsKeyDown(KEY_UP) && curDir != SOUTH) curDir = NORTH;
+        else if (IsKeyDown(KEY_RIGHT) && curDir != WEST) curDir = EAST;
+        else if (IsKeyDown(KEY_DOWN) && curDir != NORTH) curDir = SOUTH;
+        else if (IsKeyDown(KEY_LEFT) && curDir != EAST) curDir = WEST;
         if (snake.front() == fruitPos) {
             fruitPos = {rand() % ROWS, rand() % COLS};
             addPart(curDir);
             points++;
         }
-        for (unsigned long i = 1; i < snake.size() - 1; i++) {
+        for (unsigned long i = 1; i < snake.size(); i++) {
             if (snake[0] == snake[i]) {
                 printf("Game over");
                 return EXIT_SUCCESS;
